@@ -1,0 +1,45 @@
+spring:
+  profiles:
+    active: development
+  jpa:
+    database: POSTGRESQL
+    hibernate.ddl-auto: update
+    show-sql: true
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: # connect db with jdbc
+    username: # db username
+    password: # db password
+client:
+  url: http://0.0.0.0
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+  devtools:
+    add-properties: true
+  mvc:
+    log-request-details: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        "globally_quoted_identifiers": true
+  security:
+    debug: true
+logging:
+  level:
+    web: DEBUG
+---
+spring:
+  devtools:
+    add-properties: false
+  config:
+    activate:
+      on-profile: production
+  jpa:
+    hibernate:
+      ddl-auto: update
