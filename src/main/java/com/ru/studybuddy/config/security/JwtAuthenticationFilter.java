@@ -1,6 +1,6 @@
-package com.ru.template.config.security;
+package com.ru.studybuddy.config.security;
 
-import com.ru.template.services.TokenService;
+import com.ru.studybuddy.token.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

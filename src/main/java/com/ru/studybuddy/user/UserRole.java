@@ -1,4 +1,4 @@
-package com.ru.template.entities.user;
+package com.ru.studybuddy.user;
 
 public enum UserRole {
     USER,

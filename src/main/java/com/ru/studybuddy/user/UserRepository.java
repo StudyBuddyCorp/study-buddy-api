@@ -1,6 +1,6 @@
-package com.ru.template.repositories;
+package com.ru.studybuddy.user;
 
-import com.ru.template.entities.user.User;
+import com.ru.studybuddy.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
-package com.ru.template.services;
+package com.ru.studybuddy.token;
 
-import com.ru.template.entities.token.Token;
-import com.ru.template.entities.user.User;
-import com.ru.template.repositories.TokenRepository;
+import com.ru.studybuddy.token.Token;
+import com.ru.studybuddy.user.User;
+import com.ru.studybuddy.token.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

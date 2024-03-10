@@ -1,10 +1,10 @@
-package com.ru.template.services;
+package com.ru.studybuddy.user;
 
 
-import com.ru.template.entities.auth.RegisterRequest;
-import com.ru.template.entities.user.User;
-import com.ru.template.entities.user.UserRole;
-import com.ru.template.repositories.UserRepository;
+import com.ru.studybuddy.auth.RegisterRequest;
+import com.ru.studybuddy.user.User;
+import com.ru.studybuddy.user.UserRole;
+import com.ru.studybuddy.user.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

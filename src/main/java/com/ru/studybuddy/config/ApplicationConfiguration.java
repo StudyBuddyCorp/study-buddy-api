@@ -1,7 +1,7 @@
-package com.ru.template.config;
+package com.ru.studybuddy.config;
 
-import com.ru.template.repositories.UserRepository;
-import com.ru.template.services.UserService;
+import com.ru.studybuddy.user.UserRepository;
+import com.ru.studybuddy.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfiguration {
 
     private final UserRepository repository;
-    private final UserService userService;
+
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return userService::getUser;
+        return username -> repository.getByEmail(username).orElseThrow();
     }
 
     @Bean

@@ -1,9 +1,5 @@
-package com.ru.template.controllers;
+package com.ru.studybuddy.auth;
 
-import com.ru.template.entities.auth.AuthenticationRequest;
-import com.ru.template.entities.auth.AuthenticationResponse;
-import com.ru.template.entities.auth.RegisterRequest;
-import com.ru.template.services.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

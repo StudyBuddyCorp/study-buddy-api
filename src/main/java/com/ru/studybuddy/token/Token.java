@@ -1,6 +1,6 @@
-package com.ru.template.entities.token;
+package com.ru.studybuddy.token;
 
-import com.ru.template.entities.user.User;
+import com.ru.studybuddy.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

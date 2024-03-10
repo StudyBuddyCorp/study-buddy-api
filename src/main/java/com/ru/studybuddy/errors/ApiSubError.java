@@ -1,4 +1,4 @@
-package com.ru.template.errors;
+package com.ru.studybuddy.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -8,9 +8,9 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: # connect db with jdbc
-    username: # db username
-    password: # db password
+    url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
+    username: postgres.vvsogddfgkzdzgxyylcg
+    password: wooDe.73study-buddy-api
 client:
   url: http://0.0.0.0
 ---

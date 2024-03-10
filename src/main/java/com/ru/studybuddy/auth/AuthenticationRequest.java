@@ -1,4 +1,4 @@
-package com.ru.template.entities.auth;
+package com.ru.studybuddy.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.ru.template.config.security;
+package com.ru.studybuddy.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,7 @@
-package com.ru.template.entities.auth;
+package com.ru.studybuddy.auth;
 
 
-import com.ru.template.entities.user.User;
+import com.ru.studybuddy.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

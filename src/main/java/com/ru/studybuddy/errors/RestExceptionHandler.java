@@ -1,4 +1,4 @@
-package com.ru.template.errors;
+package com.ru.studybuddy.errors;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;

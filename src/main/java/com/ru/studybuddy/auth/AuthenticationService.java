@@ -1,10 +1,9 @@
-package com.ru.template.services;
+package com.ru.studybuddy.auth;
 
 
-import com.ru.template.entities.auth.AuthenticationRequest;
-import com.ru.template.entities.auth.AuthenticationResponse;
-import com.ru.template.entities.auth.RegisterRequest;
-import com.ru.template.entities.user.User;
+import com.ru.studybuddy.token.TokenService;
+import com.ru.studybuddy.user.UserService;
+import com.ru.studybuddy.user.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

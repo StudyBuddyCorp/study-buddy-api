@@ -1,4 +1,4 @@
-package com.ru.template.errors;
+package com.ru.studybuddy.errors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

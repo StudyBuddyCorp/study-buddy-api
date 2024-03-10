@@ -8,11 +8,11 @@
 		<version>3.2.0</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.ru</groupId>
-	<artifactId>template</artifactId>
+	<groupId>com.studybuddy</groupId>
+	<artifactId>study-buddy</artifactId>
 	<version>0.0.1</version>
-	<name>template</name>
-	<description>Template Spring Boot Postgres</description>
+	<name>Study Buddy</name>
+	<description>Your study buddy!</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -45,12 +45,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
