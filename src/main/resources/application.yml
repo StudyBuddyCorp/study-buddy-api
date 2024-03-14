@@ -11,8 +11,6 @@ spring:
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
     username: postgres.vvsogddfgkzdzgxyylcg
     password: wooDe.73study-buddy-api
-client:
-  url: http://0.0.0.0
 ---
 spring:
   config:
@@ -25,6 +23,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+#      ddl-auto: create-drop
     properties:
       hibernate:
         "globally_quoted_identifiers": true

@@ -1,6 +1,8 @@
 package com.ru.studybuddy.user;
 
 import com.ru.studybuddy.course.Course;
+import com.ru.studybuddy.department.Department;
+import com.ru.studybuddy.speciality.Speciality;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,9 +33,13 @@ public class User implements UserDetails {
     private String name;
     private String imageUrl;
 
-    private String department;
-    private String speciality;
-    private String group;
+    @ManyToOne
+    private Department department;
+
+    @ManyToOne
+    private Speciality speciality;
+
+    private int group;
 
     @ManyToMany(mappedBy = "students")
     private List<Course> studiedCourses;

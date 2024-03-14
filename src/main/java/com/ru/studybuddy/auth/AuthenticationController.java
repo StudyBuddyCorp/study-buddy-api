@@ -23,12 +23,12 @@ public class AuthenticationController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<AuthenticationResponse> refresh(@CookieValue("refreshToken") String refreshToken, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<AuthenticationResponse> refresh(@CookieValue("token") String refreshToken, HttpServletResponse httpServletResponse) {
         return ResponseEntity.ok(service.refresh(refreshToken, httpServletResponse));
     }
 
     @DeleteMapping("/logout")
-    public void logout(@CookieValue("refreshToken") String refreshToken) {
+    public void logout(@CookieValue("token") String refreshToken) {
         service.logout(refreshToken);
     }
 }

@@ -27,7 +27,7 @@ public class AuthenticationService {
         String accessToken = tokenService.generateRefreshToken(user);
         tokenService.setTokenToRepository(refreshToken, user);
         setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(refreshToken, accessToken, user);
+        return buildResponse(accessToken, user);
     }
 
     public AuthenticationResponse login(AuthenticationRequest request, HttpServletResponse httpServletResponse) {
@@ -37,7 +37,7 @@ public class AuthenticationService {
         String accessToken = tokenService.generateRefreshToken(user);
         tokenService.setTokenToRepository(refreshToken, user);
         setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(refreshToken, accessToken, user);
+        return buildResponse(accessToken, user);
     }
 
     public AuthenticationResponse refresh(String requestToken, HttpServletResponse httpServletResponse) {
@@ -48,7 +48,7 @@ public class AuthenticationService {
         String accessToken = tokenService.generateRefreshToken(user);
         tokenService.setTokenToRepository(refreshToken, user);
         setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(refreshToken, accessToken, user);
+        return buildResponse(accessToken, user);
     }
 
     public void logout(String refreshToken) {
@@ -59,7 +59,7 @@ public class AuthenticationService {
 
     private void setTokenToCookie(HttpServletResponse response, String token) {
         try {
-            Cookie cookie = new Cookie("refreshToken", token);
+            Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -67,10 +67,9 @@ public class AuthenticationService {
         }
     }
 
-    private AuthenticationResponse buildResponse(String refreshToken, String accessToken, User user) {
+    private AuthenticationResponse buildResponse(String accessToken, User user) {
         return AuthenticationResponse.builder()
-                .refreshToken(refreshToken)
-                .accessToken(accessToken)
+                .token(accessToken)
                 .user(user)
                 .build();
     }

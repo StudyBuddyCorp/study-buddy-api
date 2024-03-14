@@ -24,6 +24,7 @@ public class Course {
     private String title;
     private String description;
     private String imageId;
+    private int complexity;
 
     @ManyToMany
     private List<User> students;

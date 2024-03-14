@@ -1,5 +1,4 @@
-package com.ru.studybuddy.auth;
-
+package com.ru.studybuddy.user.rest;
 
 import com.ru.studybuddy.user.User;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationResponse {
+public class CreateStudentResponse {
 
-    private String token;
-    private User user;
-
+   private String message;
+   private int status;
+   private User user;
 }
