@@ -2,9 +2,6 @@ package com.ru.studybuddy.user;
 
 
 import com.ru.studybuddy.auth.RegisterRequest;
-import com.ru.studybuddy.user.User;
-import com.ru.studybuddy.user.UserRole;
-import com.ru.studybuddy.user.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,23 +24,14 @@ public class UserService {
 
     public User setUser(RegisterRequest request) {
         Optional<User> optUser = repository.getByEmail(request.getEmail());
-        UserRole role = extractRole(request.getRole());
         if (optUser.isPresent()) {
             throw new EntityExistsException("User with email: " + request.getEmail() + " already exists");
         }
         var user = User.builder()
                 .email(request.getEmail())
                 .password(encoder.encode(request.getPassword()))
-                .role(role)
+                .role(UserRole.ADMIN)
                 .build();
         return repository.save(user);
-    }
-
-    private UserRole extractRole(String role) {
-        return switch (role) {
-            case "USER" -> UserRole.USER;
-            case "ADMIN" -> UserRole.ADMIN;
-            default -> throw new EntityNotFoundException("Role " + role + " not found");
-        };
     }
 }

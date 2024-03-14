@@ -3,6 +3,7 @@ package com.ru.studybuddy.token;
 import com.ru.studybuddy.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Token {
 
     @Id
@@ -20,9 +22,4 @@ public class Token {
     private User user;
 
     private String refreshToken;
-
-    public Token(User user, String refreshToken) {
-        this.user = user;
-        this.refreshToken = refreshToken;
-    }
 }

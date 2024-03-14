@@ -1,8 +1,6 @@
 package com.ru.studybuddy.token;
 
-import com.ru.studybuddy.token.Token;
 import com.ru.studybuddy.user.User;
-import com.ru.studybuddy.token.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +16,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -93,19 +92,16 @@ public class TokenService {
         }
     }
 
-    public Token getByUser(User user) {
-        return repository.getByUser(user)
-                .orElseThrow(() -> new EntityNotFoundException("Token not found"));
-    }
 
     public void setTokenToRepository(String refreshToken, User user) {
         try {
-            Token token = getByUser(user);
-            if (token != null) {
+            Optional<Token> tokenOpt = repository.getByUser(user);
+            if (tokenOpt.isPresent()) {
+                Token token = tokenOpt.get();
                 token.setRefreshToken(refreshToken);
                 repository.save(token);
             } else {
-                repository.save(new Token(user, refreshToken));
+                repository.save(Token.builder().refreshToken(refreshToken).user(user).build());
             }
         } catch (Exception e) {
             throw new RuntimeException("Token setting exception");
