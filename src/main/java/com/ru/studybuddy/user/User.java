@@ -2,6 +2,7 @@ package com.ru.studybuddy.user;
 
 import com.ru.studybuddy.course.Course;
 import com.ru.studybuddy.department.Department;
+import com.ru.studybuddy.group.Group;
 import com.ru.studybuddy.speciality.Speciality;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class User implements UserDetails {
     private String id;
 
     private String email;
+    private String phone;
     private String password;
 
     private String name;
@@ -39,7 +41,8 @@ public class User implements UserDetails {
     @ManyToOne
     private Speciality speciality;
 
-    private int group;
+    @ManyToOne
+    private Group group;
 
     @ManyToMany(mappedBy = "students")
     private List<Course> studiedCourses;

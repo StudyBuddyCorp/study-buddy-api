@@ -4,6 +4,8 @@ package com.ru.studybuddy.user;
 import com.ru.studybuddy.auth.RegisterRequest;
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.department.DepartmentService;
+import com.ru.studybuddy.group.Group;
+import com.ru.studybuddy.group.GroupService;
 import com.ru.studybuddy.speciality.Speciality;
 import com.ru.studybuddy.speciality.SpecialityService;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserRepository repository;
     private final DepartmentService departmentService;
     private final SpecialityService specialityService;
+    private final GroupService groupService;
     private final PasswordEncoder encoder;
 
     public User getUser(String email) {
@@ -60,15 +63,16 @@ public class UserService {
 
         Department department = departmentService.findByTitle(request.getDepartment());
         Speciality speciality = specialityService.findByTitle(request.getSpecialty());
+        Group group = groupService.findById(request.getGroup());
         String password = getTemporarilyPassword(request);
 
         User student = repository.save(User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(password)
+                .password(encoder.encode(password))
                 .department(department)
                 .speciality(speciality)
-                .group(request.getGroup())
+                .group(group)
                 .role(UserRole.STUDENT)
                 .build());
         return CreateStudentResponse.builder()

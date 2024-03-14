@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,5 +16,5 @@ public class CreateStudentRequest {
     private String email;
     private String department;
     private String specialty;
-    private int group;
+    private UUID group;
 }

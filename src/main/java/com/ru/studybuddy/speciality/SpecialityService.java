@@ -24,8 +24,11 @@ public class SpecialityService {
                 .build();
     }
 
-    public GetSpecialitiesResponse get() {
+    public GetSpecialitiesResponse get(String department) {
         List<Speciality> specialties = repository.findAll();
+        if(department != null) {
+            specialties = specialties.stream().filter(speciality -> speciality.getDepartment().getTitle().equals(department)).toList();
+        }
         return GetSpecialitiesResponse.builder()
                 .message("Specialities found")
                 .status(200)

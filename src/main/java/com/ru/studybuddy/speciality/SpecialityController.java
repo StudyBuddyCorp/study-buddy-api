@@ -5,10 +5,7 @@ import com.ru.studybuddy.speciality.responses.CreateSpecialityResponse;
 import com.ru.studybuddy.speciality.responses.GetSpecialitiesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ public class SpecialityController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<GetSpecialitiesResponse> get() {
-        return ResponseEntity.ok(service.get());
+    public ResponseEntity<GetSpecialitiesResponse> get(@RequestParam String department) {
+        return ResponseEntity.ok(service.get(department));
     }
 }
