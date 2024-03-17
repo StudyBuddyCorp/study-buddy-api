@@ -1,5 +1,6 @@
 package com.ru.studybuddy.speciality;
 
+import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.speciality.requests.CreateSpecialityRequest;
 import com.ru.studybuddy.speciality.responses.CreateSpecialityResponse;
 import com.ru.studybuddy.speciality.responses.GetSpecialitiesResponse;
@@ -7,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,10 +27,7 @@ public class SpecialityService {
     }
 
     public GetSpecialitiesResponse get(String department) {
-        List<Speciality> specialties = repository.findAll();
-        if(department != null) {
-            specialties = specialties.stream().filter(speciality -> speciality.getDepartment().getTitle().equals(department)).toList();
-        }
+        List<Object> specialties = repository.findByDepartment_TitleOrderByTitleAsc(department);
         return GetSpecialitiesResponse.builder()
                 .message("Specialities found")
                 .status(200)

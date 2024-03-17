@@ -10,12 +10,15 @@ import com.ru.studybuddy.speciality.Speciality;
 import com.ru.studybuddy.speciality.SpecialityService;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
+import com.ru.studybuddy.user.rest.GetStudentsResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -79,6 +82,35 @@ public class UserService {
                 .user(student)
                 .status(204)
                 .message("Student created")
+                .build();
+    }
+
+    public GetStudentsResponse getStudents(String name, String department, String specialty, String group) {
+
+        Specification<User> spec = Specification.where(UserSpecification.hasRole(UserRole.STUDENT));
+
+        if(!name.isEmpty()) {
+            spec = spec.and(UserSpecification.nameIncludes(name));
+        }
+
+        if (!department.isEmpty()) {
+            spec = spec.and(UserSpecification.hasDepartment(department));
+        }
+        if (!specialty.isEmpty()) {
+            spec = spec.and(UserSpecification.hasSpecialty(specialty));
+
+        }
+        if (!group.isEmpty()) {
+            spec = spec.and(UserSpecification.hasGroup(group));
+        }
+
+        List<User> students = repository.findAll(spec);
+
+
+        return GetStudentsResponse.builder()
+                .message("Students found")
+                .status(200)
+                .students(students)
                 .build();
     }
 }

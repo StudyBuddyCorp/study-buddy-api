@@ -19,6 +19,7 @@ import java.util.List;
 public class Department {
 
     @Id
+    @Column(name = "title")
     private String title;
 
     @OneToMany

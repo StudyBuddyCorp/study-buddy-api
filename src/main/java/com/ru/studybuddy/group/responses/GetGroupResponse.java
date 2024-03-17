@@ -1,6 +1,6 @@
 package com.ru.studybuddy.group.responses;
 
-import com.ru.studybuddy.group.Group;
+import com.ru.studybuddy.group.GroupGroupAndId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +15,5 @@ import java.util.List;
 public class GetGroupResponse {
     private int status;
     private String message;
-    private List<Group> groups;
+    private List<GroupGroupAndId> groups;
 }

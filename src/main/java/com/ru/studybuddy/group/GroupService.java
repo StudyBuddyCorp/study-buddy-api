@@ -15,13 +15,7 @@ public class GroupService {
     private final GroupRepository repository;
 
     public GetGroupResponse get(String department, String speciality) {
-        List<Group> groups = repository.findAll();
-        if (department != null) {
-            groups = groups.stream().filter(group -> group.getDepartment().getTitle().equals(department)).toList();
-        }
-        if (speciality != null) {
-            groups = groups.stream().filter(group -> group.getSpecialty().getTitle().equals(speciality)).toList();
-        }
+        List<GroupGroupAndId> groups = repository.findByDepartment_TitleAndSpecialty_Title(department, speciality);
         return GetGroupResponse.builder()
                 .groups(groups)
                 .message("Groups found and filtered")

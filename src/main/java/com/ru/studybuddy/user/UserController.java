@@ -2,12 +2,12 @@ package com.ru.studybuddy.user;
 
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
+import com.ru.studybuddy.user.rest.GetStudentsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +18,10 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<CreateStudentResponse> createStudent(@RequestBody CreateStudentRequest request) {
         return  ResponseEntity.ok(service.createStudent(request));
+    }
+
+    @GetMapping("/get-students")
+    public ResponseEntity<GetStudentsResponse> getStudents(@RequestParam String name, @RequestParam String department, @RequestParam String specialty, @RequestParam String group) {
+        return ResponseEntity.ok(service.getStudents(name, department, specialty,group));
     }
 }

@@ -6,8 +6,6 @@ spring:
     hibernate.ddl-auto: update
     show-sql: true
   datasource:
-    platform: postgres
-    driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
     username: postgres.vvsogddfgkzdzgxyylcg
     password: wooDe.73study-buddy-api

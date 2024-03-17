@@ -1,6 +1,5 @@
 package com.ru.studybuddy.department.rest;
 
-import com.ru.studybuddy.department.Department;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetDepartmentResponse {
-    private List<Department> departments;
+    private List<Object> departments;
     private int status;
     private String message;
 }

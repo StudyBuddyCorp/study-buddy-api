@@ -2,12 +2,14 @@ package com.ru.studybuddy.group;
 
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.speciality.Speciality;
+import com.ru.studybuddy.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,4 +30,7 @@ public class Group {
 
     @ManyToOne
     private Department department;
+
+    @OneToMany
+    private List<User> students;
 }

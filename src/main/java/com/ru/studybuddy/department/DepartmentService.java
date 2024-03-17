@@ -21,7 +21,7 @@ public class DepartmentService {
     }
 
     public GetDepartmentResponse get() {
-        List<Department> departments = repository.findAll();
+        List<Object> departments = repository.findAllOrderByTitleAsc();
         return GetDepartmentResponse.builder()
                 .departments(departments)
                 .message("Departments found")
