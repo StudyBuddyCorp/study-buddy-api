@@ -1,5 +1,6 @@
 package com.ru.studybuddy.token;
 
+import com.ru.studybuddy.errors.TokenException;
 import com.ru.studybuddy.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -104,7 +105,7 @@ public class TokenService {
                 repository.save(Token.builder().refreshToken(refreshToken).user(user).build());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Token setting exception");
+            throw new TokenException("Token setting exception");
         }
     }
 

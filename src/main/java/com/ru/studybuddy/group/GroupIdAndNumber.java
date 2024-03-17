@@ -2,9 +2,9 @@ package com.ru.studybuddy.group;
 
 import java.util.UUID;
 
-public interface GroupGroupAndId {
+public interface GroupIdAndNumber {
 
     UUID getId();
 
-    String getGroup();
+    int getNumber();
 }

@@ -1,6 +1,7 @@
 package com.ru.studybuddy.config.security;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,7 +21,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 

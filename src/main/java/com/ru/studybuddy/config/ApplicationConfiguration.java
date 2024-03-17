@@ -1,7 +1,6 @@
 package com.ru.studybuddy.config;
 
 import com.ru.studybuddy.user.UserRepository;
-import com.ru.studybuddy.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,5 @@
 package com.ru.studybuddy.group;
 
-import com.ru.studybuddy.group.responses.GetGroupResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +13,12 @@ public class GroupService {
 
     private final GroupRepository repository;
 
-    public GetGroupResponse get(String department, String speciality) {
-        List<GroupGroupAndId> groups = repository.findByDepartment_TitleAndSpecialty_Title(department, speciality);
-        return GetGroupResponse.builder()
-                .groups(groups)
-                .message("Groups found and filtered")
-                .status(200)
-                .build();
+    public List<GroupIdAndNumber> get(String department, String speciality) {
+        return repository.findByDepartment_TitleAndSpecialty_Title(department, speciality);
     }
 
     public Group findById(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Speciality with id: " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Specialty with id: " + id + " not found"));
     }
 }

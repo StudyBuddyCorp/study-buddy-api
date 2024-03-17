@@ -6,11 +6,10 @@ import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.department.DepartmentService;
 import com.ru.studybuddy.group.Group;
 import com.ru.studybuddy.group.GroupService;
-import com.ru.studybuddy.speciality.Speciality;
-import com.ru.studybuddy.speciality.SpecialityService;
+import com.ru.studybuddy.speciality.Specialty;
+import com.ru.studybuddy.speciality.SpecialtyService;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
-import com.ru.studybuddy.user.rest.GetStudentsResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final DepartmentService departmentService;
-    private final SpecialityService specialityService;
+    private final SpecialtyService specialtyService;
     private final GroupService groupService;
     private final PasswordEncoder encoder;
 
@@ -65,7 +64,7 @@ public class UserService {
         }
 
         Department department = departmentService.findByTitle(request.getDepartment());
-        Speciality speciality = specialityService.findByTitle(request.getSpecialty());
+        Specialty specialty = specialtyService.getByTitle(request.getSpecialty());
         Group group = groupService.findById(request.getGroup());
         String password = getTemporarilyPassword(request);
 
@@ -74,7 +73,7 @@ public class UserService {
                 .email(request.getEmail())
                 .password(encoder.encode(password))
                 .department(department)
-                .speciality(speciality)
+                .specialty(specialty)
                 .group(group)
                 .role(UserRole.STUDENT)
                 .build());
@@ -85,7 +84,7 @@ public class UserService {
                 .build();
     }
 
-    public GetStudentsResponse getStudents(String name, String department, String specialty, String group) {
+    public List<User> get(String name, String department, String specialty, String groupId) {
 
         Specification<User> spec = Specification.where(UserSpecification.hasRole(UserRole.STUDENT));
 
@@ -100,17 +99,10 @@ public class UserService {
             spec = spec.and(UserSpecification.hasSpecialty(specialty));
 
         }
-        if (!group.isEmpty()) {
-            spec = spec.and(UserSpecification.hasGroup(group));
+        if (!groupId.isEmpty()) {
+            spec = spec.and(UserSpecification.hasGroup(groupId));
         }
 
-        List<User> students = repository.findAll(spec);
-
-
-        return GetStudentsResponse.builder()
-                .message("Students found")
-                .status(200)
-                .students(students)
-                .build();
+        return repository.findAll(spec);
     }
 }

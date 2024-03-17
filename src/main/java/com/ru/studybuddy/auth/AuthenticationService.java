@@ -1,6 +1,7 @@
 package com.ru.studybuddy.auth;
 
 
+import com.ru.studybuddy.errors.CookieException;
 import com.ru.studybuddy.token.TokenService;
 import com.ru.studybuddy.user.UserService;
 import com.ru.studybuddy.user.User;
@@ -63,7 +64,7 @@ public class AuthenticationService {
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         } catch (Exception e) {
-            throw new RuntimeException("Setting cookie exception");
+            throw new CookieException("Setting cookie exception");
         }
     }
 

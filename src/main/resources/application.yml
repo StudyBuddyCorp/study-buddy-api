@@ -1,10 +1,6 @@
 spring:
   profiles:
     active: development
-  jpa:
-    database: POSTGRESQL
-    hibernate.ddl-auto: update
-    show-sql: true
   datasource:
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
     username: postgres.vvsogddfgkzdzgxyylcg
@@ -19,12 +15,9 @@ spring:
   mvc:
     log-request-details: true
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
-#      ddl-auto: create-drop
-    properties:
-      hibernate:
-        "globally_quoted_identifiers": true
   security:
     debug: true
 logging:
@@ -32,11 +25,12 @@ logging:
     web: DEBUG
 ---
 spring:
-  devtools:
-    add-properties: false
   config:
     activate:
       on-profile: production
+  devtools:
+    add-properties: false
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update

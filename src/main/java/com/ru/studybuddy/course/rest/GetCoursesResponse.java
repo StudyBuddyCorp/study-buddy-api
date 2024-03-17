@@ -1,6 +1,6 @@
 package com.ru.studybuddy.course.rest;
 
-import com.ru.studybuddy.course.Course;
+import com.ru.studybuddy.course.CourseTitleAndDescription;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCoursesResponse {
-    private List<Course> courses;
+    private List<CourseTitleAndDescription> courses;
     private int status;
     private String message;
 }

@@ -2,8 +2,8 @@ package com.ru.studybuddy.course;
 
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
 import com.ru.studybuddy.course.rest.CreateCourseResponse;
-import com.ru.studybuddy.course.rest.GetCoursesResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +23,7 @@ public class CourseService {
                 .build();
     }
 
-    public GetCoursesResponse get() {
-        List<Course> courses = repository.findAll();
-        return GetCoursesResponse.builder()
-                .courses(courses)
-                .message("Courses found")
-                .status(200)
-                .build();
+    public List<CourseTitleAndDescription> get() {
+        return repository.findByOrderByTitleAsc(Pageable.ofSize(25));
     }
 }
