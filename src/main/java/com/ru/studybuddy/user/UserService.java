@@ -8,17 +8,24 @@ import com.ru.studybuddy.group.Group;
 import com.ru.studybuddy.group.GroupService;
 import com.ru.studybuddy.speciality.Specialty;
 import com.ru.studybuddy.speciality.SpecialtyService;
+import com.ru.studybuddy.user.exceptions.UserExistsException;
+import com.ru.studybuddy.user.exceptions.UserNotFoundException;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
@@ -29,24 +36,26 @@ public class UserService {
     private final SpecialtyService specialtyService;
     private final GroupService groupService;
     private final PasswordEncoder encoder;
+    private final UserModelAssembler assembler;
 
     public User getUser(String email) {
         return repository.getByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + "not found"));
+                .orElseThrow(() -> new UserNotFoundException(email));
     }
 
     public User setUser(RegisterRequest request) {
-        Optional<User> optUser = repository.getByEmail(request.getEmail());
+        String email = request.getEmail();
+        Optional<User> optUser = repository.getByEmail(email);
         if (optUser.isPresent()) {
-            throw new EntityExistsException("User with email: " + request.getEmail() + " already exists");
+            throw new UserExistsException(email);
         }
-        var user = User.builder()
-                .email(request.getEmail())
-                .password(encoder.encode(request.getPassword()))
-                .role(UserRole.ADMIN)
-                .name(request.getName())
-                .build();
-        return repository.save(user);
+        return repository.save(
+                User.builder()
+                        .email(request.getEmail())
+                        .password(encoder.encode(request.getPassword()))
+                        .role(UserRole.ADMIN)
+                        .name(request.getName())
+                        .build());
     }
 
     private String getTemporarilyPassword(CreateStudentRequest request) {
@@ -57,10 +66,10 @@ public class UserService {
     }
 
     public CreateStudentResponse createStudent(CreateStudentRequest request) {
-
-        Optional<User> optUser = repository.getByEmail(request.getEmail());
+        String email = request.getEmail();
+        Optional<User> optUser = repository.getByEmail(email);
         if (optUser.isPresent()) {
-            throw new EntityExistsException("User with email: " + request.getEmail() + " already exists");
+            throw new UserExistsException(email);
         }
 
         Department department = departmentService.findByTitle(request.getDepartment());
@@ -84,25 +93,25 @@ public class UserService {
                 .build();
     }
 
-    public List<User> get(String name, String department, String specialty, String groupId) {
+    public EntityModel<UserDto> one(UUID id) {
+        return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
+    }
 
-        Specification<User> spec = Specification.where(UserSpecification.hasRole(UserRole.STUDENT));
+    public CollectionModel<EntityModel<UserDto>> allStudents(String name, String department, String specialty, UUID groupId) {
 
-        if(!name.isEmpty()) {
-            spec = spec.and(UserSpecification.nameIncludes(name));
-        }
+        Specification<User> userSpec = new UserSpecification(
+                UserRole.STUDENT,
+                name,
+                department,
+                specialty,
+                groupId
+        );
 
-        if (!department.isEmpty()) {
-            spec = spec.and(UserSpecification.hasDepartment(department));
-        }
-        if (!specialty.isEmpty()) {
-            spec = spec.and(UserSpecification.hasSpecialty(specialty));
+        List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
+                .map(assembler::toModel).collect(Collectors.toList());
 
-        }
-        if (!groupId.isEmpty()) {
-            spec = spec.and(UserSpecification.hasGroup(groupId));
-        }
-
-        return repository.findAll(spec);
+        return CollectionModel.of(students,
+                linkTo(methodOn(UserController.class).getStudents(name, department, specialty, groupId)).withSelfRel()
+        );
     }
 }
