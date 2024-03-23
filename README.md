@@ -1,3 +1,4 @@
+[![Java CI with Maven](https://github.com/woodemai/study-buddy-api/actions/workflows/maven.yml/badge.svg)](https://github.com/woodemai/study-buddy-api/actions/workflows/maven.yml)
 # Описание приложения
 
 ### Краткое описание
