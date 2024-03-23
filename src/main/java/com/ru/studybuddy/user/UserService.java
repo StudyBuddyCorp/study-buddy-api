@@ -9,6 +9,7 @@ import com.ru.studybuddy.group.GroupService;
 import com.ru.studybuddy.speciality.Specialty;
 import com.ru.studybuddy.speciality.SpecialtyService;
 import com.ru.studybuddy.user.exceptions.UserExistsException;
+import com.ru.studybuddy.user.exceptions.UserIllegalAccess;
 import com.ru.studybuddy.user.exceptions.UserNotFoundException;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
@@ -45,6 +46,9 @@ public class UserService {
 
     public User setUser(RegisterRequest request) {
         String email = request.getEmail();
+        if (request.getName() == null){
+            throw new UserIllegalAccess();
+        }
         Optional<User> optUser = repository.getByEmail(email);
         if (optUser.isPresent()) {
             throw new UserExistsException(email);

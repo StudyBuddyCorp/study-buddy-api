@@ -2,6 +2,7 @@ package com.ru.studybuddy.errors;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NoResultException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleUnknown(RuntimeException ex) {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+        return buildResponseEntity(apiError);
+    }
+    @ExceptionHandler(NoResultException.class)
+    public ResponseEntity<Object> handleNoResult(NoResultException ex){
+        ApiError apiError = new ApiError(HttpStatus.NOT_ACCEPTABLE, ex.getMessage(), ex);
         return buildResponseEntity(apiError);
     }
 

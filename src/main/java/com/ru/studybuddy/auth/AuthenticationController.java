@@ -31,4 +31,5 @@ public class AuthenticationController {
     public void logout(@CookieValue("token") String refreshToken) {
         service.logout(refreshToken);
     }
+
 }
