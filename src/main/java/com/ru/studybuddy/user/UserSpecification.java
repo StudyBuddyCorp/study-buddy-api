@@ -35,15 +35,15 @@ public class UserSpecification implements Specification<User>{
             predicates.add(cb.equal(user.get("role"), role));
         }
 
-        if (!name.isEmpty()) {
+        if (name != null) {
             predicates.add(cb.like(cb.lower(user.get("name")), "%" + name.toLowerCase() + "%"));
         }
 
-        if (!departmentTitle.isEmpty()) {
+        if (departmentTitle != null) {
             predicates.add(cb.equal(user.join("department").get("title"), departmentTitle));
         }
 
-        if (!specialtyTitle.isEmpty()) {
+        if (specialtyTitle != null) {
             predicates.add(cb.equal(user.join("specialty").get("title"), specialtyTitle));
         }
 
