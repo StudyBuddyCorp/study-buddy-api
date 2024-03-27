@@ -13,7 +13,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service // говорит спрингу что тт серверная логика
 @RequiredArgsConstructor
 public class AuthenticationService {
 

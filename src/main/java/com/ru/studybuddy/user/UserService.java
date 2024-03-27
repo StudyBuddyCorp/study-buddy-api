@@ -9,6 +9,7 @@ import com.ru.studybuddy.group.GroupService;
 import com.ru.studybuddy.speciality.Specialty;
 import com.ru.studybuddy.speciality.SpecialtyService;
 import com.ru.studybuddy.user.exceptions.UserExistsException;
+import com.ru.studybuddy.user.exceptions.UserNoResult;
 import com.ru.studybuddy.user.exceptions.UserNotFoundException;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
@@ -45,6 +46,12 @@ public class UserService {
 
     public User setUser(RegisterRequest request) {
         String email = request.getEmail();
+        if (request.getName() == null){
+            throw new UserNoResult("name");
+        }
+        if (request.getEmail() == null){
+            throw new UserNoResult("email");
+        }
         Optional<User> optUser = repository.getByEmail(email);
         if (optUser.isPresent()) {
             throw new UserExistsException(email);
@@ -109,7 +116,6 @@ public class UserService {
 
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
                 .map(assembler::toModel).collect(Collectors.toList());
-
         return CollectionModel.of(students,
                 linkTo(methodOn(UserController.class).getStudents(name, department, specialty, groupId)).withSelfRel()
         );
