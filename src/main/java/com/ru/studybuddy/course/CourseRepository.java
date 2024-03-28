@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface CourseRepository extends JpaRepository<Course, UUID> {
 
 
-    List<CourseTitleAndDescription> findByOrderByTitleAsc(Pageable pageable);
+    List<CourseData> findByOrderByTitleAsc(Pageable pageable);
 
 }

@@ -2,7 +2,7 @@ package com.ru.studybuddy.course;
 
 import java.util.UUID;
 
-public interface CourseTitleAndDescription {
+public interface CourseData {
     UUID getId();
     String getTitle();
 

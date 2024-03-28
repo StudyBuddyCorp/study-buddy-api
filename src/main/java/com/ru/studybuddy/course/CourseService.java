@@ -23,7 +23,7 @@ public class CourseService {
                 .build();
     }
 
-    public List<CourseTitleAndDescription> get() {
+    public List<CourseData> get() {
         return repository.findByOrderByTitleAsc(Pageable.ofSize(25));
     }
 }

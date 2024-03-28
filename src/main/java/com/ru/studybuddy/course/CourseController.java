@@ -21,7 +21,7 @@ public class CourseController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<CourseTitleAndDescription>> get() {
+    public ResponseEntity<List<CourseData>> get() {
         return  ResponseEntity.ok(service.get());
     }
 
