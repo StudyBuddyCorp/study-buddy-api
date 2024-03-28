@@ -14,6 +14,7 @@ import com.ru.studybuddy.user.exceptions.UserNotFoundException;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,6 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository repository;
@@ -104,20 +106,24 @@ public class UserService {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
-    public CollectionModel<EntityModel<UserDto>> allStudents(String name, String department, String specialty, UUID groupId) {
-
+    public CollectionModel<EntityModel<UserDto>> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
+        log.info("Name " + name);
+        log.info("Department title " + departmentTitle);
+        log.info("Speciality title " + specialtyTitle);
+        log.info("Group id" + groupId);
         Specification<User> userSpec = new UserSpecification(
                 UserRole.STUDENT,
                 name,
-                department,
-                specialty,
+                departmentTitle,
+                specialtyTitle,
                 groupId
         );
 
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
                 .map(assembler::toModel).collect(Collectors.toList());
+        log.info(students.toString());
         return CollectionModel.of(students,
-                linkTo(methodOn(UserController.class).getStudents(name, department, specialty, groupId)).withSelfRel()
+                linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel()
         );
     }
 }
