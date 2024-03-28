@@ -30,20 +30,19 @@ public class UserSpecification implements Specification<User>{
             @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
 
-
         if (role != null) {
             predicates.add(cb.equal(user.get("role"), role));
         }
 
-        if (name != null) {
+        if (!name.isEmpty()) {
             predicates.add(cb.like(cb.lower(user.get("name")), "%" + name.toLowerCase() + "%"));
         }
 
-        if (departmentTitle != null) {
+        if (!departmentTitle.isEmpty()) {
             predicates.add(cb.equal(user.join("department").get("title"), departmentTitle));
         }
 
-        if (specialtyTitle != null) {
+        if (!specialtyTitle.isEmpty()) {
             predicates.add(cb.equal(user.join("specialty").get("title"), specialtyTitle));
         }
 
