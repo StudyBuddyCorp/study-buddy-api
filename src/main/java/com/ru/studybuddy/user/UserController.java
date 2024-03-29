@@ -2,7 +2,6 @@ package com.ru.studybuddy.user;
 
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
-import com.ru.studybuddy.user.rest.GetStudentsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

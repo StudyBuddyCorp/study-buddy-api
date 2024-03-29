@@ -44,6 +44,9 @@ public class Group implements Serializable {
     @ToString.Exclude
     private List<User> students;
 
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<SubGroup> subgroups;
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
