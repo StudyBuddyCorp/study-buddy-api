@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Data
 @Builder
-public class UserDto {
+public class UserDto extends RepresentationModel<UserDto> {
     private UUID id;
     private String name;
     private String email;

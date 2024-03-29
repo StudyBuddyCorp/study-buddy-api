@@ -2,9 +2,11 @@ package com.ru.studybuddy.user;
 
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
+import com.ru.studybuddy.user.rest.GetStudentsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/get-students")
-    public ResponseEntity<CollectionModel<EntityModel<UserDto>>> getStudents(
+    public ResponseEntity<RepresentationModel<UserDto>> getStudents(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String department,
             @RequestParam(required = false) String specialty,
@@ -33,5 +35,9 @@ public class UserController {
     @GetMapping("/one")
     public ResponseEntity<EntityModel<UserDto>> one(@PathVariable  UUID id) {
         return ResponseEntity.ok(service.one(id));
+    }
+    @GetMapping("/test")
+    public ResponseEntity<CollectionModel<EntityModel<UserDto>>> test(){
+        return ResponseEntity.ok(service.test());
     }
 }

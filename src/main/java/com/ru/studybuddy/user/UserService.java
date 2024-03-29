@@ -15,12 +15,18 @@ import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.mapping.Collection;
+import org.hibernate.query.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.mediatype.hal.HalModelBuilder;
+import org.springframework.hateoas.server.core.EmbeddedWrappers;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -105,8 +111,16 @@ public class UserService {
     public EntityModel<UserDto> one(UUID id) {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
+    public CollectionModel<EntityModel<UserDto>> test() {
+        List<EntityModel<UserDto>> users = repository.findAll()
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(users,
+                linkTo(methodOn(UserController.class).test()).withSelfRel());
+    }
 
-    public CollectionModel<EntityModel<UserDto>> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
+    public RepresentationModel< UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
         log.info("Name " + name);
         log.info("Department title " + departmentTitle);
         log.info("Speciality title " + specialtyTitle);
@@ -118,12 +132,14 @@ public class UserService {
                 specialtyTitle,
                 groupId
         );
+        log.info(userSpec.toString());
+        List<User> users = repository.findAll(userSpec);
 
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
                 .map(assembler::toModel).collect(Collectors.toList());
-        log.info(students.toString());
-        return CollectionModel.of(students,
-                linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel()
-        );
+        return HalModelBuilder.emptyHalModel()
+                .embed(!students.isEmpty()?students:Collections.emptyList(),UserDto.class)
+                .link(linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel())
+                .build();
     }
 }
