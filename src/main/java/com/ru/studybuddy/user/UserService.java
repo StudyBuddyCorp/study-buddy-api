@@ -15,14 +15,10 @@ import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.Collection;
-import org.hibernate.query.Order;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.mediatype.hal.HalModelBuilder;
-import org.springframework.hateoas.server.core.EmbeddedWrappers;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -111,14 +106,6 @@ public class UserService {
     public EntityModel<UserDto> one(UUID id) {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
-    public CollectionModel<EntityModel<UserDto>> test() {
-        List<EntityModel<UserDto>> users = repository.findAll()
-                .stream()
-                .map(assembler::toModel)
-                .collect(Collectors.toList());
-        return CollectionModel.of(users,
-                linkTo(methodOn(UserController.class).test()).withSelfRel());
-    }
 
     public RepresentationModel< UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
         log.info("Name " + name);
@@ -133,10 +120,9 @@ public class UserService {
                 groupId
         );
         log.info(userSpec.toString());
-        List<User> users = repository.findAll(userSpec);
 
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
-                .map(assembler::toModel).collect(Collectors.toList());
+                .map(assembler::toModel).toList();
         return HalModelBuilder.emptyHalModel()
                 .embed(!students.isEmpty()?students:Collections.emptyList(),UserDto.class)
                 .link(linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel())
