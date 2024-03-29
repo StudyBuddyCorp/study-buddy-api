@@ -16,7 +16,6 @@ import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.mediatype.hal.HalModelBuilder;
@@ -106,14 +105,6 @@ public class UserService {
 
     public EntityModel<UserDto> one(UUID id) {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
-    }
-    public CollectionModel<EntityModel<UserDto>> test() {
-        List<EntityModel<UserDto>> users = repository.findAll()
-                .stream()
-                .map(assembler::toModel)
-                .toList();
-        return CollectionModel.of(users,
-                linkTo(methodOn(UserController.class).test()).withSelfRel());
     }
 
     public RepresentationModel< UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {

@@ -3,7 +3,6 @@ package com.ru.studybuddy.user;
 import com.ru.studybuddy.user.rest.CreateStudentRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +34,5 @@ public class UserController {
     public ResponseEntity<EntityModel<UserDto>> one(@PathVariable  UUID id) {
         return ResponseEntity.ok(service.one(id));
     }
-    @GetMapping("/test")
-    public ResponseEntity<CollectionModel<EntityModel<UserDto>>> test(){
-        return ResponseEntity.ok(service.test());
-    }
+
 }
