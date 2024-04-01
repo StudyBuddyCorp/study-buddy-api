@@ -3,9 +3,9 @@ package com.ru.studybuddy.course;
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
 import com.ru.studybuddy.course.rest.CreateCourseResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -15,7 +15,12 @@ public class CourseService {
     private final CourseRepository repository;
 
     public CreateCourseResponse create(CreateCourseRequest request) {
-        Course course = repository.save(Course.builder().title(request.getTitle()).description(request.getDescription()).build());
+        Course course = repository.save(Course.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build());
         return CreateCourseResponse.builder()
                 .course(course)
                 .message("Course created")
@@ -24,6 +29,10 @@ public class CourseService {
     }
 
     public List<CourseData> get() {
-        return repository.findByOrderByTitleAsc(Pageable.ofSize(25));
+        return repository.getCoursesData();
+    }
+
+    public Long count() {
+        return repository.count();
     }
 }

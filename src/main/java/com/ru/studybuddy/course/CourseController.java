@@ -25,4 +25,9 @@ public class CourseController {
         return  ResponseEntity.ok(service.get());
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> count() {
+        return  ResponseEntity.ok(service.count());
+    }
+
 }

@@ -7,6 +7,7 @@ import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,6 +41,10 @@ public class Course implements Serializable {
     @ManyToMany
     @ToString.Exclude
     private List<User> teachers;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     @Override
     public final boolean equals(Object o) {

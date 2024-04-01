@@ -11,4 +11,5 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
 
     List<GroupIdAndNumber> findByDepartment_TitleAndSpecialty_Title(String department, String specialty);
 
+
 }

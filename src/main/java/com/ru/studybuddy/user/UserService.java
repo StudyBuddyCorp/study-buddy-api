@@ -49,10 +49,10 @@ public class UserService {
 
     public User setUser(RegisterRequest request) {
         String email = request.getEmail();
-        if (request.getName() == null){
+        if (request.getName() == null) {
             throw new UserNoResult("name");
         }
-        if (request.getEmail() == null){
+        if (request.getEmail() == null) {
             throw new UserNoResult("email");
         }
         Optional<User> optUser = repository.getByEmail(email);
@@ -107,7 +107,7 @@ public class UserService {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
-    public RepresentationModel< UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
+    public RepresentationModel<UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
         log.info("Name " + name);
         log.info("Department title " + departmentTitle);
         log.info("Speciality title " + specialtyTitle);
@@ -124,8 +124,16 @@ public class UserService {
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
                 .map(assembler::toModel).toList();
         return HalModelBuilder.emptyHalModel()
-                .embed(!students.isEmpty()?students:Collections.emptyList(),UserDto.class)
+                .embed(!students.isEmpty() ? students : Collections.emptyList(), UserDto.class)
                 .link(linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel())
                 .build();
+    }
+
+    public Long count(UserRole role) {
+
+        if (role == null) {
+            return repository.count();
+        }
+        return repository.countByRole(role);
     }
 }
