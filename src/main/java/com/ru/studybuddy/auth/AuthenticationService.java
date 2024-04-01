@@ -2,6 +2,7 @@ package com.ru.studybuddy.auth;
 
 
 import com.ru.studybuddy.errors.CookieException;
+import com.ru.studybuddy.token.Token;
 import com.ru.studybuddy.token.TokenService;
 import com.ru.studybuddy.user.UserService;
 import com.ru.studybuddy.user.User;
@@ -13,7 +14,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-@Service // говорит спрингу что тт серверная логика
+@Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
@@ -24,37 +25,28 @@ public class AuthenticationService {
     public AuthenticationResponse registration(RegisterRequest request, HttpServletResponse httpServletResponse) {
         User user = userService.setUser(request);
         login(request);
-        String refreshToken = tokenService.generateAccessToken(user);
-        String accessToken = tokenService.generateRefreshToken(user);
-        tokenService.setTokenToRepository(refreshToken, user);
-        setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(accessToken, user);
+
+        return buildResponse(user, httpServletResponse);
     }
 
     public AuthenticationResponse login(AuthenticationRequest request, HttpServletResponse httpServletResponse) {
         User user = userService.getUser(request.getEmail());
         login(request);
-        String refreshToken = tokenService.generateAccessToken(user);
-        String accessToken = tokenService.generateRefreshToken(user);
-        tokenService.setTokenToRepository(refreshToken, user);
-        setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(accessToken, user);
+
+        return buildResponse(user, httpServletResponse);
     }
 
     public AuthenticationResponse refresh(String requestToken, HttpServletResponse httpServletResponse) {
-        tokenService.checkEquals(requestToken);
+        Token token = tokenService.getToken(requestToken);
+        tokenService.checkEquals(requestToken, token);
         String email = tokenService.getUsername(requestToken);
         User user = userService.getUser(email);
-        String refreshToken = tokenService.generateAccessToken(user);
-        String accessToken = tokenService.generateRefreshToken(user);
-        tokenService.setTokenToRepository(refreshToken, user);
-        setTokenToCookie(httpServletResponse, refreshToken);
-        return buildResponse(accessToken, user);
+
+        return buildResponse(user, httpServletResponse);
     }
 
     public void logout(String refreshToken) {
         tokenService.deleteToken(refreshToken);
-
     }
 
 
@@ -68,7 +60,11 @@ public class AuthenticationService {
         }
     }
 
-    private AuthenticationResponse buildResponse(String accessToken, User user) {
+    private AuthenticationResponse buildResponse(User user, HttpServletResponse httpServletResponse) {
+        String refreshToken = tokenService.generateAccessToken(user);
+        String accessToken = tokenService.generateRefreshToken(user);
+        tokenService.setTokenToRepository(refreshToken, user);
+        setTokenToCookie(httpServletResponse, refreshToken);
         return AuthenticationResponse.builder()
                 .token(accessToken)
                 .user(user)

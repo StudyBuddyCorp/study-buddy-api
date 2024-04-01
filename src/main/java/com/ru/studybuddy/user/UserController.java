@@ -30,9 +30,14 @@ public class UserController {
             @RequestParam(required = false) UUID groupId) {
         return ResponseEntity.ok(service.allStudents(name, department, specialty, groupId));
     }
+
     @GetMapping("/one")
-    public ResponseEntity<EntityModel<UserDto>> one(@PathVariable  UUID id) {
+    public ResponseEntity<EntityModel<UserDto>> one(@PathVariable UUID id) {
         return ResponseEntity.ok(service.one(id));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> count(@RequestParam(required = false) UserRole role) {
+        return ResponseEntity.ok(service.count(role));
+    }
 }

@@ -1,13 +1,14 @@
 package com.ru.studybuddy.token;
 
 import com.ru.studybuddy.errors.TokenException;
+import com.ru.studybuddy.token.exception.TokenNotFoundException;
+import com.ru.studybuddy.token.exception.TokensNotEqualException;
 import com.ru.studybuddy.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -85,11 +86,9 @@ public class TokenService {
         return getClaim(token, Claims::getExpiration);
     }
 
-    public void checkEquals(String token) {
-        Token dbToken = repository.getByRefreshToken(token)
-                .orElseThrow(() -> new EntityNotFoundException("Token not found"));
-        if (!dbToken.getRefreshToken().equals(token)) {
-            throw new EntityExistsException("Tokens are not equal");
+    public void checkEquals(String token, Token tokenDB) {
+        if (token.equals(tokenDB.getRefreshToken())) {
+            throw new TokensNotEqualException();
         }
     }
 
@@ -112,5 +111,9 @@ public class TokenService {
     public void deleteToken(String token) {
         repository.delete(repository.getByRefreshToken(token)
                 .orElseThrow(() -> new EntityNotFoundException("Token not found")));
+    }
+
+    public Token getToken(String token) {
+        return repository.getByRefreshToken(token).orElseThrow(() -> new TokenNotFoundException(token));
     }
 }

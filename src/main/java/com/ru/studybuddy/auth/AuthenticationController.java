@@ -28,8 +28,9 @@ public class AuthenticationController {
     }
 
     @DeleteMapping("/logout")
-    public void logout(@CookieValue("token") String refreshToken) {
+    public ResponseEntity<Object> logout(@CookieValue("token") String refreshToken) {
         service.logout(refreshToken);
+        return ResponseEntity.noContent().build();
     }
 
 }
