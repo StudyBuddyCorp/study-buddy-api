@@ -1,5 +1,7 @@
 package com.ru.studybuddy.course;
 
+import com.ru.studybuddy.course.exception.CourseNotFoundException;
+import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
 import com.ru.studybuddy.course.rest.CreateCourseResponse;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +31,42 @@ public class CourseService {
                 .build();
     }
 
-    public List<CourseData> get() {
+    public List<CourseData> get(String title) {
+        if (title != null && !title.isEmpty()) {
+            return repository.getCoursesData(title.toLowerCase());
+        }
         return repository.getCoursesData();
+    }
+
+    public Course get(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(id));
     }
 
     public Long count() {
         return repository.count();
+    }
+
+    public void delete(UUID id) {
+        repository.deleteById(id);
+    }
+
+    public void edit(UUID id, CourseEditRequest request) {
+
+        Course course = get(id);
+        String title = request.getTitle();
+        String description = request.getDescription();
+
+        if (title != null && !title.isEmpty()) {
+            course.setTitle(title);
+        }
+
+        if (description != null && !description.isEmpty()) {
+            course.setTitle(description);
+        }
+
+        course.setUpdatedAt(LocalDateTime.now());
+
+        repository.save(course);
     }
 }
