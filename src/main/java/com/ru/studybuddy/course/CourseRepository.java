@@ -30,11 +30,11 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
             "c.description as description, " +
             "c.createdAt as createdAt, " +
             "c.updatedAt as updatedAt, " +
-            "count(students) as studentsCount" +
+            "count(students) as studentsCount " +
             "from Course c " +
-            "left join c.students students" +
-            "where LOWER(c.title) like %?1%" +
-            "group by c.id" +
+            "left join c.students students " +
+            "where LOWER(c.title) like %?1% " +
+            "group by c.id " +
             "order by c.updatedAt desc")
     List<CourseData> getCoursesData(String title);
 
