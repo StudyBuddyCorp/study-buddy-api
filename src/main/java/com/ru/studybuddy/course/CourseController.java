@@ -17,12 +17,12 @@ public class CourseController {
 
     private final CourseService service;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<CreateCourseResponse> create(@RequestBody CreateCourseRequest request) {
         return ResponseEntity.ok(service.create(request));
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<CourseData>> get(@RequestParam(required = false) String title) {
         return  ResponseEntity.ok(service.get(title));
     }
@@ -32,15 +32,27 @@ public class CourseController {
         return  ResponseEntity.ok(service.count());
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/edit/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> edit(@PathVariable UUID id, @RequestBody CourseEditRequest request) {
         service.edit(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/subscribe/student/{studentId}")
+    public ResponseEntity<Void> subscribeStudent(@PathVariable UUID id, @PathVariable UUID studentId) {
+        service.subscribeStudent(id, studentId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/subscribe/group/{groupId}")
+    public ResponseEntity<Void> subscribeGroup(@PathVariable UUID courseId, @PathVariable UUID groupId) {
+        service.subscribeStudents(courseId, groupId);
         return ResponseEntity.noContent().build();
     }
 

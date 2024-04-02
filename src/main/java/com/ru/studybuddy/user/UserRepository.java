@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     @Query("select count(u) from User u where u.role = ?1")
     long countByRole(UserRole role);
 
+    List<User> findAllByGroupId(UUID groupId);
 }
