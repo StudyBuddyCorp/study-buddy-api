@@ -11,10 +11,32 @@ import java.util.UUID;
 public interface CourseRepository extends JpaRepository<Course, UUID> {
 
 
-
-    @Query("select c.id as id, c.title as title, c.description as description, c.createdAt as createdAt, c.updatedAt as updatedAt, count(students) as studentsCount FROM Course c LEFT JOIN c.students students GROUP BY c.id")
+    @Query("select " +
+            "c.id as id, " +
+            "c.title as title, " +
+            "c.description as description, " +
+            "c.createdAt as createdAt, " +
+            "c.updatedAt as updatedAt, " +
+            "count(students) as studentsCount " +
+            "from Course c " +
+            "left join c.students students " +
+            "group by c.id " +
+            "order by c.updatedAt desc")
     List<CourseData> getCoursesData();
 
+    @Query("select " +
+            "c.id as id, " +
+            "c.title as title, " +
+            "c.description as description, " +
+            "c.createdAt as createdAt, " +
+            "c.updatedAt as updatedAt, " +
+            "count(students) as studentsCount " +
+            "from Course c " +
+            "left join c.students students " +
+            "where LOWER(c.title) like %?1% " +
+            "group by c.id " +
+            "order by c.updatedAt desc")
+    List<CourseData> getCoursesData(String title);
 
 
 }
