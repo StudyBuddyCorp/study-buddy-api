@@ -1,4 +1,11 @@
 spring:
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
   profiles:
     active: development
   datasource:

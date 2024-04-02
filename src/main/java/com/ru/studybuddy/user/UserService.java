@@ -104,7 +104,7 @@ public class UserService {
     }
 
     public EntityModel<UserDto> one(UUID id) {
-        return assembler.toModel(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
+        return assembler.toModel(get(id));
     }
 
     public RepresentationModel<UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
@@ -135,5 +135,14 @@ public class UserService {
             return repository.count();
         }
         return repository.countByRole(role);
+    }
+
+    public User get(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public List<User> getAllByGroupId(UUID groupId) {
+        return repository.findAllByGroupId(groupId);
     }
 }
