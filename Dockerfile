@@ -1,10 +1,10 @@
-FROM maven:3.9 AS builder
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM adoptopenjdk/openjdk11
+COPY pom.xml .
+COPY ./src ./src
+RUN mvn clean install -Dmaven.test.skip=true
+FROM amazoncorretto:21-alpine3.19
 WORKDIR /app
-COPY --from=builder app/target/study-buddy-0.0.1.jar study-buddy-0.0.1.jar
+COPY --from=builder app/target/study-buddy-0.0.1.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "study-buddy-0.0.1.jar"]
+CMD ["java", "-jar", "app.jar"]
