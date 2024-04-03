@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.4</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.studybuddy</groupId>
@@ -15,6 +15,7 @@
 	<description>Your study buddy!</description>
 	<properties>
 		<java.version>21</java.version>
+		<io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,17 +60,17 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.11.5</version>
+			<version>${io.jsonwebtoken.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.5</version>
+			<version>${io.jsonwebtoken.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
+			<version>${io.jsonwebtoken.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
