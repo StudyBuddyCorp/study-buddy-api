@@ -1,11 +1,10 @@
-FROM maven:3.8.4-openjdk-17-slim AS builder
+FROM maven:3.9 AS builder
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn -f pom.xml clean package
+COPY . .
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-alpine
-COPY --from=builder /app/target/study-buddy-0.0.1.jar /app/study-buddy-0.0.1.jar
+FROM adoptopenjdk/openjdk11
 WORKDIR /app
+COPY --from=builder app/target/study-buddy-0.0.1.jar study-buddy-0.0.1.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "study-buddy-0.0.1.jar"]
