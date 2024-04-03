@@ -73,7 +73,7 @@ public class CourseService {
 
         repository.save(course);
     }
-
+@Transactional
     public void subscribeStudent(UUID id, UUID studentId) {
         repository.addStudentToCourse(id, studentId);
     }
