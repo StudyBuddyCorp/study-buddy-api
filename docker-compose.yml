@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    container_name: study-buddy-api
+    image: study-buddy-api:v0.0.1
+    build: .
+    links:
+      - redis
+    ports:
+      - "8080:8080"
+    volumes:
+      - ~/docker/redis:/redis-service/logs
+  redis:
+    container_name: redis
+    image: redis:v0.0.1
+    build: ./redis
+    hostname: redis
+    ports:
+      - "6379:6379"
