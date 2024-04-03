@@ -11,7 +11,7 @@ import com.ru.studybuddy.speciality.SpecialtyService;
 import com.ru.studybuddy.user.exceptions.UserExistsException;
 import com.ru.studybuddy.user.exceptions.UserNoResult;
 import com.ru.studybuddy.user.exceptions.UserNotFoundException;
-import com.ru.studybuddy.user.rest.CreateStudentRequest;
+import com.ru.studybuddy.user.rest.CreateUserRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,14 +68,14 @@ public class UserService {
                         .build());
     }
 
-    private String getTemporarilyPassword(CreateStudentRequest request) {
+    private String getTemporarilyPassword(CreateUserRequest request) {
         String password = request.getName().toLowerCase() + "_" + request.getDepartment().toLowerCase() + "_" + request.getSpecialty().toLowerCase() + "_" + request.getGroup();
         password = password.replace(" ", "");
         return password;
 
     }
 
-    public CreateStudentResponse createStudent(CreateStudentRequest request) {
+    public CreateStudentResponse createStudent(CreateUserRequest request) {
         String email = request.getEmail();
         Optional<User> optUser = repository.getByEmail(email);
         if (optUser.isPresent()) {
@@ -107,25 +107,19 @@ public class UserService {
         return assembler.toModel(get(id));
     }
 
-    public RepresentationModel<UserDto> allStudents(String name, String departmentTitle, String specialtyTitle, UUID groupId) {
-        log.info("Name " + name);
-        log.info("Department title " + departmentTitle);
-        log.info("Speciality title " + specialtyTitle);
-        log.info("Group id" + groupId);
+    public RepresentationModel<UserDto> getAll(UserRole role, String name, String departmentTitle, String specialtyTitle, UUID groupId) {
         Specification<User> userSpec = new UserSpecification(
-                UserRole.STUDENT,
+                role,
                 name,
                 departmentTitle,
                 specialtyTitle,
                 groupId
         );
-        log.info(userSpec.toString());
-
         List<EntityModel<UserDto>> students = repository.findAll(userSpec).stream()
                 .map(assembler::toModel).toList();
         return HalModelBuilder.emptyHalModel()
                 .embed(!students.isEmpty() ? students : Collections.emptyList(), UserDto.class)
-                .link(linkTo(methodOn(UserController.class).getStudents(name, departmentTitle, specialtyTitle, groupId)).withSelfRel())
+                .link(linkTo(methodOn(UserController.class).getAll(role, name, departmentTitle, specialtyTitle, groupId)).withSelfRel())
                 .build();
     }
 
