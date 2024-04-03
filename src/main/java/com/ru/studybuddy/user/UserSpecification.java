@@ -38,15 +38,15 @@ public class UserSpecification implements Specification<User> {
             predicates.add(cb.like(cb.lower(user.get("name")), "%" + name.toLowerCase() + "%"));
         }
 
-        if (departmentTitle != null) {
+        if (role == UserRole.STUDENT && departmentTitle != null) {
             predicates.add(cb.equal(user.join("department").get("title"), departmentTitle));
         }
 
-        if (specialtyTitle != null) {
+        if (role == UserRole.STUDENT && specialtyTitle != null) {
             predicates.add(cb.equal(user.join("specialty").get("title"), specialtyTitle));
         }
 
-        if (groupId != null) {
+        if (role == UserRole.STUDENT && groupId != null) {
             predicates.add(cb.equal(user.join("group").get("id"), groupId));
         }
 

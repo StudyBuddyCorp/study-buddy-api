@@ -1,11 +1,12 @@
-FROM maven:3.8.4-openjdk-17-slim AS builder
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
-COPY src ./src
-RUN mvn -f pom.xml clean package
+COPY ./src ./src
+RUN mvn clean install -Dmaven.test.skip=true
 
-FROM eclipse-temurin:17-alpine
-COPY --from=builder /app/target/study-buddy-0.0.1.jar /app/study-buddy-0.0.1.jar
+FROM amazoncorretto:21-alpine3.19
 WORKDIR /app
+VOLUME /redis-service
+COPY --from=builder app/target/study-buddy-0.0.1.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "study-buddy-0.0.1.jar"]
+CMD ["java", "-jar", "app.jar"]
