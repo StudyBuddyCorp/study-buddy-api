@@ -15,6 +15,7 @@ import com.ru.studybuddy.user.rest.CreateUserRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
@@ -102,7 +103,7 @@ public class UserService {
                 .message("Student created")
                 .build();
     }
-
+    @Cacheable (value = "userId", key = "'user_'+#id")
     public EntityModel<UserDto> one(UUID id) {
         return assembler.toModel(get(id));
     }
