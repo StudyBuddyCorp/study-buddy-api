@@ -1,9 +1,13 @@
 package com.ru.studybuddy.course;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface CourseData {
+@JsonDeserialize(as = CourseDataImpl.class)
+public interface CourseData extends Serializable {
     UUID getId();
     String getTitle();
 

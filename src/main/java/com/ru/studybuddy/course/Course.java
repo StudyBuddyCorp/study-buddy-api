@@ -34,11 +34,11 @@ public class Course implements Serializable {
     @Column(columnDefinition = "text")
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<User> students;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<User> teachers;
 

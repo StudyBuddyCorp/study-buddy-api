@@ -26,6 +26,11 @@ public class CourseController {
     public ResponseEntity<List<CourseData>> get(@RequestParam(required = false) String title) {
         return  ResponseEntity.ok(service.get(title));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseData> getOne(@PathVariable UUID id) {
+        return  ResponseEntity.ok(service.getOne(id));
+    }
+
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
