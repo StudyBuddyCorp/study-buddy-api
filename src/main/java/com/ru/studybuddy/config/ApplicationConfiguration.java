@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor // создаёт конструктор со всеми аргументами автоматом
+@RequiredArgsConstructor
 public class ApplicationConfiguration {
 
     private final UserRepository repository;

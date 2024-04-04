@@ -7,6 +7,8 @@ import com.ru.studybuddy.course.rest.CreateCourseResponse;
 import com.ru.studybuddy.user.User;
 import com.ru.studybuddy.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -35,6 +38,7 @@ public class CourseService {
                 .build();
     }
 
+//    @Cacheable(value = "courseCache")
     public List<CourseData> get(String title) {
         if (title != null && !title.isEmpty()) {
             return repository.getCoursesData(title.toLowerCase());
@@ -73,7 +77,8 @@ public class CourseService {
 
         repository.save(course);
     }
-@Transactional
+
+    @Transactional
     public void subscribeStudent(UUID id, UUID studentId) {
         repository.addStudentToCourse(id, studentId);
     }
@@ -89,6 +94,12 @@ public class CourseService {
 
         course.getStudents().addAll(subscribedStudents);
         repository.saveAndFlush(course);
+    }
+
+    @Cacheable(value = "courseCache")
+    public CourseData getOne(UUID id) {
+        return repository.getCourseData(id)
+                .orElseThrow(() -> new CourseNotFoundException(id));
     }
 
 }
