@@ -70,7 +70,7 @@ public class CourseService {
         }
 
         if (description != null && !description.isEmpty()) {
-            course.setTitle(description);
+            course.setDescription(description);
         }
 
         course.setUpdatedAt(LocalDateTime.now());
