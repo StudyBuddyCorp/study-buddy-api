@@ -50,13 +50,13 @@ public class User implements UserDetails, Serializable {
     @Column(columnDefinition = "text")
     private String imageUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Specialty specialty;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
 
     @ManyToMany(mappedBy = "students")
