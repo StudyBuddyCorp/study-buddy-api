@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     long countByRole(UserRole role);
 
     List<User> findAllByGroupId(UUID groupId);
+
+    @Query("select u.id, u.name, u.email,  u.group from  User u where u.id = ?1")
+    Optional<UserProjection> getUserData(UUID id);
 }

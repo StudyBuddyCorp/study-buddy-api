@@ -12,6 +12,7 @@ spring:
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
     username: postgres.vvsogddfgkzdzgxyylcg
     password: wooDe.73study-buddy-api
+
 ---
 spring:
   config:
@@ -30,6 +31,7 @@ spring:
 logging:
   level:
     web: DEBUG
+mapping: "/**"
 ---
 spring:
   config:
@@ -41,3 +43,4 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+mapping: "/api/v1/auth"

@@ -49,7 +49,7 @@ public class UserService {
     }
 
     public User setUser(RegisterRequest request) {
-        String email = request.getEmail();
+        String email  = request.getEmail();
         if (request.getName() == null) {
             throw new UserNoResult("name");
         }
@@ -135,6 +135,11 @@ public class UserService {
     public User get(UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
+    }
+    public UserProjection getUserData(UUID id) {
+        Optional<UserProjection> user = repository.getUserData(id);
+        log.info("ID: {}\nUserName: {}\nClass: {}", id, user.get().getName(),user.getClass());
+        return user.get();
     }
 
     public List<User> getAllByGroupId(UUID groupId) {

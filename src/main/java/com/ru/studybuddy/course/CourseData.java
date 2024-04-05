@@ -11,8 +11,8 @@ public interface CourseData extends Serializable {
     UUID getId();
     String getTitle();
 
-    LocalDateTime getCreatedAt();
-    LocalDateTime getUpdatedAt();
+//    LocalDateTime getCreatedAt();
+//    LocalDateTime getUpdatedAt();
     String getDescription();
     Long getStudentsCount();
 }

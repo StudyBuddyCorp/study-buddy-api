@@ -15,11 +15,11 @@ public class CourseDataImpl implements CourseData{
 
     private Long studentsCount;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+//    private LocalDateTime createdAt;
+//
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+//    private LocalDateTime updatedAt;
 
     @Override
     public UUID getId() {
@@ -31,15 +31,15 @@ public class CourseDataImpl implements CourseData{
         return title;
     }
 
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    @Override
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+//    @Override
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
+//    @Override
+//    public LocalDateTime getUpdatedAt() {
+//        return updatedAt;
+//    }
 
     @Override
     public String getDescription() {

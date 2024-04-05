@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
 @Builder
-public class UserDto extends RepresentationModel<UserDto> {
+public class UserDto extends RepresentationModel<UserDto> implements Serializable {
     private UUID id;
     private String name;
     private String email;

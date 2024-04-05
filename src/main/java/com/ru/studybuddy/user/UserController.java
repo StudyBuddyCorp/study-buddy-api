@@ -3,7 +3,6 @@ package com.ru.studybuddy.user;
 import com.ru.studybuddy.user.rest.CreateUserRequest;
 import com.ru.studybuddy.user.rest.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<UserDto>> get(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.one(id));
+    public ResponseEntity<User> get(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.get(id));
     }
 
     @GetMapping("/count")

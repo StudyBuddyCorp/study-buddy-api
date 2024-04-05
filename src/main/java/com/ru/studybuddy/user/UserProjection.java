@@ -1,6 +1,10 @@
 package com.ru.studybuddy.user;
 
-public interface UserProjection {
+import java.io.Serializable;
+import java.util.UUID;
+
+public interface UserProjection extends Serializable {
+    UUID getId();
     String getName();
     String getEmail();
     String getDepartmentTitle();

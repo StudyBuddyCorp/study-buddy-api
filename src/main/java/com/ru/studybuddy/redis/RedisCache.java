@@ -25,12 +25,4 @@ public class RedisCache {
                 )
                 .build();
     }
-    @Bean
-    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer(){
-        return builder -> builder
-                .withCacheConfiguration("customCache",
-                        RedisCacheConfiguration.defaultCacheConfig()
-                                .entryTtl(Duration.ofMinutes(5))
-                );
-    }
 }
