@@ -1,25 +1,27 @@
 package com.ru.studybuddy.course;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CourseDataImpl implements CourseData{
 
+
+    public CourseDataImpl(UUID id, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Long studentsCount) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.studentsCount = studentsCount;
+    }
+
     private UUID id;
-
     private String title;
-
     private String description;
 
-    private Long studentsCount;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
+    private Long studentsCount;
 
     @Override
     public UUID getId() {

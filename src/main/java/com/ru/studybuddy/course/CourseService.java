@@ -1,5 +1,6 @@
 package com.ru.studybuddy.course;
 
+import com.ru.studybuddy.config.CacheNames;
 import com.ru.studybuddy.course.exception.CourseNotFoundException;
 import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
@@ -38,7 +39,7 @@ public class CourseService {
                 .build();
     }
 
-//    @Cacheable(value = "courseCache")
+    //    @Cacheable(value = "courseCache")
     public List<CourseData> get(String title) {
         if (title != null && !title.isEmpty()) {
             return repository.getCoursesData(title.toLowerCase());
@@ -96,10 +97,19 @@ public class CourseService {
         repository.saveAndFlush(course);
     }
 
-    @Cacheable(value = "courseCache")
-    public CourseData getOne(UUID id) {
-        return repository.getCourseData(id)
+//    @Cacheable(value = CacheNames.LONG_CACHE)
+    public CourseData getOneCache(UUID id) {
+        CourseData course = repository.getCourseData(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
+        log.info("Course: {}", course);
+        return course;
     }
 
+//    @Cacheable(value = CacheNames.LONG_CACHE, key = "#id")
+    public Course getOne(UUID id) {
+        Course course = repository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(id));
+        log.info("Course: {}", course);
+        return course;
+    }
 }

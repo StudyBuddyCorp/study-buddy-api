@@ -1,4 +1,10 @@
 spring:
+  cache:
+    type: redis
+  redis:
+    host: redis
+    port: 6379
+    password: konara
   jpa:
     properties:
       hibernate:

@@ -28,7 +28,7 @@ public class CourseController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<CourseData> getOne(@PathVariable UUID id) {
-        return  ResponseEntity.ok(service.getOne(id));
+        return  ResponseEntity.ok(service.getOneCache(id));
     }
 
 

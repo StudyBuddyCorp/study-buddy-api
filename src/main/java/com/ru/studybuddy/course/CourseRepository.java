@@ -51,4 +51,6 @@ public interface CourseRepository extends JpaRepository<Course, UUID>, CourseRep
             "where c.id = ?1 " +
             "group by c.id ")
     Optional<CourseData> getCourseData(UUID id);
+
+
 }
