@@ -97,7 +97,7 @@ public class CourseService {
         repository.saveAndFlush(course);
     }
 
-    @Cacheable(value = CacheNames.LONG_CACHE)
+//    @Cacheable(value = CacheNames.LONG_CACHE)
     public CourseData getOneCache(UUID id) {
         CourseData course = repository.getCourseData(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
@@ -105,7 +105,7 @@ public class CourseService {
         return course;
     }
 
-    @Cacheable(value = CacheNames.LONG_CACHE, key = "#id")
+//    @Cacheable(value = CacheNames.LONG_CACHE, key = "#id")
     public Course getOne(UUID id) {
         Course course = repository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
