@@ -1,5 +1,7 @@
 package com.ru.studybuddy.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ru.studybuddy.course.Course;
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.group.Group;
@@ -21,11 +23,12 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@ToString
+@AllArgsConstructor
 @Table(name = "users")
+@RequiredArgsConstructor
+@JsonIgnoreProperties({"password", "phone", "imageUrl"})
 public class User implements UserDetails, Serializable {
 
     @Serial
@@ -41,6 +44,7 @@ public class User implements UserDetails, Serializable {
     @Column(columnDefinition = "text")
     private String phone;
 
+    @JsonIgnore
     @Column(columnDefinition = "text")
     private String password;
 
@@ -61,10 +65,12 @@ public class User implements UserDetails, Serializable {
 
     @ManyToMany(mappedBy = "students")
     @ToString.Exclude
+    @JsonIgnore
     private List<Course> studiedCourses;
 
     @ManyToMany(mappedBy = "teachers")
     @ToString.Exclude
+    @JsonIgnore
     private List<Course> taughtCourses;
 
     @Enumerated(EnumType.STRING)

@@ -1,9 +1,10 @@
 package com.ru.studybuddy.course.request;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class CourseEditRequest {
     private String title;
     private String description;
+    private String body;
 }

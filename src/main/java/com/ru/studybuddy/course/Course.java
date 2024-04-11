@@ -1,8 +1,8 @@
 package com.ru.studybuddy.course;
 
-import com.ru.studybuddy.markdown.Markdown;
 import com.ru.studybuddy.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -17,10 +17,10 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@ToString
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Course implements Serializable {
 
     @Serial
@@ -30,27 +30,32 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(columnDefinition = "text")
+    @NotBlank
     @Builder.Default
+    @Column(columnDefinition = "text")
     private String title = "";
 
-    @Column(columnDefinition = "text")
+    @NotBlank
     @Builder.Default
+    @Column(columnDefinition = "text")
     private String description = "";
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    List<Markdown> body = new ArrayList<>();
+    @Column(columnDefinition = "text")
+    private String body = "";
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
     @ToString.Exclude
-    private List<User> students;
-
     @ManyToMany(fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private List<User> teachers;
+    private List<User> students = new ArrayList<>();
 
-    private LocalDateTime createdAt;
+    @Builder.Default
+    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> teachers = new ArrayList<>();
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt;
 

@@ -1,5 +1,6 @@
 package com.ru.studybuddy.group;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.speciality.Specialty;
 import com.ru.studybuddy.user.User;
@@ -33,20 +34,26 @@ public class Group implements Serializable {
     private int number;
 
     @ManyToOne
+    @JsonIgnore
     @ToString.Exclude
     private Specialty specialty;
 
     @ManyToOne
+    @JsonIgnore
     @ToString.Exclude
     private Department department;
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     private List<User> students;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @JsonIgnore
     @ToString.Exclude
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<SubGroup> subgroups;
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

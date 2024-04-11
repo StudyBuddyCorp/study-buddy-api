@@ -2,9 +2,7 @@ package com.ru.studybuddy.course;
 
 import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.request.CreateCourseRequest;
-import com.ru.studybuddy.course.request.MarkdownChangeRequest;
 import com.ru.studybuddy.course.response.CreateCourseResponse;
-import com.ru.studybuddy.course.request.MarkdownCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +23,18 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseData>> get(@RequestParam(required = false) String title) {
-        return ResponseEntity.ok(service.get(title));
+    public ResponseEntity<List<CourseData>> getAll(@RequestParam(required = false) String title) {
+        return ResponseEntity.ok(service.getAll(title));
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CourseDataWithBody> getOne(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.getOne(id));
-    }
-
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(service.count());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseData> get(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.get(id));
     }
 
     @DeleteMapping("/{id}")
@@ -61,18 +58,6 @@ public class CourseController {
     @GetMapping("/{courseId}/can-edit/{userId}")
     public ResponseEntity<Boolean> checkEdit(@PathVariable UUID courseId, @PathVariable UUID userId) {
         return ResponseEntity.ok(service.handleCheckCanEdit(courseId, userId));
-    }
-
-    @PatchMapping("/{courseId}/markdown/create")
-    public ResponseEntity<Void> createMarkdown(@PathVariable UUID courseId, @RequestBody MarkdownCreateRequest request) {
-        service.createMarkdown(courseId, request);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/{courseId}/markdown/{markdownId}")
-    public ResponseEntity<Void> editMarkdown(@PathVariable UUID courseId, @PathVariable UUID markdownId, @RequestBody MarkdownChangeRequest request) {
-        service.editMarkdown(courseId, markdownId, request);
-        return ResponseEntity.noContent().build();
     }
 
 

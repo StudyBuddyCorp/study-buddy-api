@@ -1,5 +1,6 @@
 package com.ru.studybuddy.speciality;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.group.Group;
 import com.ru.studybuddy.user.User;
@@ -15,10 +16,10 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@ToString
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Specialty implements Serializable {
 
     @Serial
@@ -29,14 +30,17 @@ public class Specialty implements Serializable {
     private String title;
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     private List<Group> groups;
 
     @ManyToOne
+    @JsonIgnore
     @ToString.Exclude
     private Department department;
 
     @OneToMany
+    @JsonIgnore
     @ToString.Exclude
     private List<User> users;
 

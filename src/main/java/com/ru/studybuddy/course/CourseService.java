@@ -3,9 +3,7 @@ package com.ru.studybuddy.course;
 import com.ru.studybuddy.course.exception.CourseNotFoundException;
 import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.request.CreateCourseRequest;
-import com.ru.studybuddy.course.request.MarkdownChangeRequest;
 import com.ru.studybuddy.course.response.CreateCourseResponse;
-import com.ru.studybuddy.course.request.MarkdownCreateRequest;
 import com.ru.studybuddy.user.User;
 import com.ru.studybuddy.user.UserRole;
 import com.ru.studybuddy.user.UserService;
@@ -40,15 +38,14 @@ public class CourseService {
                 .build();
     }
 
-//    @Cacheable(value = "courseCache")
-    public List<CourseData> get(String title) {
+    public List<CourseData> getAll(String title) {
         if (title != null && !title.isEmpty()) {
             return repository.getCoursesData(title.toLowerCase());
         }
         return repository.getCoursesData();
     }
 
-    public Course get(UUID id) {
+    public Course getAll(UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
     }
@@ -63,9 +60,10 @@ public class CourseService {
 
     public void edit(UUID id, CourseEditRequest request) {
 
-        Course course = get(id);
+        Course course = getAll(id);
         String title = request.getTitle();
         String description = request.getDescription();
+        String body = request.getBody();
 
         if (title != null && !title.isEmpty()) {
             course.setTitle(title);
@@ -73,6 +71,9 @@ public class CourseService {
 
         if (description != null && !description.isEmpty()) {
             course.setDescription(description);
+        }
+        if (body != null && !body.isEmpty()) {
+            course.setBody(body);
         }
 
         course.setUpdatedAt(LocalDateTime.now());
@@ -87,7 +88,7 @@ public class CourseService {
 
     @Transactional
     public void subscribeStudents(UUID courseId, UUID groupId) {
-        Course course = get(courseId);
+        Course course = getAll(courseId);
         List<User> newStudents = userService.getAllByGroupId(groupId);
 
         List<User> subscribedStudents = newStudents.stream()
@@ -98,31 +99,20 @@ public class CourseService {
         repository.saveAndFlush(course);
     }
 
-    public CourseDataWithBody getOne(UUID id) {
-        CourseDataWithBody course = repository.getIdAndTitleAndDescriptionAndCreatedAtAndUpdatedAtAndBodyById(id)
-                .orElseThrow(() -> new CourseNotFoundException(id));
-        log.info("Title: {}\n Desc: {}\n", course.getTitle(), course.getDescription());
-        return course;
+    public CourseData get(UUID id) {
+        return repository.getCourseData(id);
     }
 
+    @Transactional
     public Boolean handleCheckCanEdit(UUID courseId, UUID userId) {
-
         User user = userService.get(userId);
 
         if (user.getRole() == UserRole.ADMIN) {
             return true;
         }
 
-        Course course = get(courseId);
+        Course course = getAll(courseId);
 
         return course.getTeachers().contains(user);
-    }
-
-    public void editMarkdown(UUID courseId, UUID markdownId, MarkdownChangeRequest request) {
-
-    }
-
-    public void createMarkdown(UUID courseId, MarkdownCreateRequest request) {
-        repository.addMarkdownToCourse(courseId, request);
     }
 }
