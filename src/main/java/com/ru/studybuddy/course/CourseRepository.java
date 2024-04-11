@@ -45,10 +45,16 @@ public interface CourseRepository extends JpaRepository<Course, UUID>, CourseRep
             "c.description as description, " +
             "c.createdAt as createdAt, " +
             "c.updatedAt as updatedAt, " +
+            "m as body, " +
             "count(students) as studentsCount " +
             "from Course c " +
             "left join c.students students " +
+            "left join Markdown m on c.id = m.course.id " +
             "where c.id = ?1 " +
-            "group by c.id ")
+            "group by c.id, c.title, c.description, c.createdAt, c.updatedAt, m")
     Optional<CourseData> getCourseData(UUID id);
+
+    Optional<CourseDataWithBody> getIdAndTitleAndDescriptionAndCreatedAtAndUpdatedAtAndBodyById(UUID id);
+
 }
+

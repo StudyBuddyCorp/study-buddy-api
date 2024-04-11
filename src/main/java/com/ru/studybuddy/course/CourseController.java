@@ -1,8 +1,10 @@
 package com.ru.studybuddy.course;
 
 import com.ru.studybuddy.course.request.CourseEditRequest;
-import com.ru.studybuddy.course.rest.CreateCourseRequest;
-import com.ru.studybuddy.course.rest.CreateCourseResponse;
+import com.ru.studybuddy.course.request.CreateCourseRequest;
+import com.ru.studybuddy.course.request.MarkdownChangeRequest;
+import com.ru.studybuddy.course.response.CreateCourseResponse;
+import com.ru.studybuddy.course.request.MarkdownCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +26,18 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseData>> get(@RequestParam(required = false) String title) {
-        return  ResponseEntity.ok(service.get(title));
+        return ResponseEntity.ok(service.get(title));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<CourseData> getOne(@PathVariable UUID id) {
-        return  ResponseEntity.ok(service.getOne(id));
+    public ResponseEntity<CourseDataWithBody> getOne(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.getOne(id));
     }
 
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        return  ResponseEntity.ok(service.count());
+        return ResponseEntity.ok(service.count());
     }
 
     @DeleteMapping("/{id}")
@@ -49,13 +52,31 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/subscribe/student/{studentId}")
+    @PatchMapping("/{courseId}/subscribe/student/{studentId}")
     public ResponseEntity<Void> subscribeStudent(@PathVariable UUID id, @PathVariable UUID studentId) {
         service.subscribeStudent(id, studentId);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/subscribe/group/{groupId}")
+    @GetMapping("/{courseId}/can-edit/{userId}")
+    public ResponseEntity<Boolean> checkEdit(@PathVariable UUID courseId, @PathVariable UUID userId) {
+        return ResponseEntity.ok(service.handleCheckCanEdit(courseId, userId));
+    }
+
+    @PatchMapping("/{courseId}/markdown/create")
+    public ResponseEntity<Void> createMarkdown(@PathVariable UUID courseId, @RequestBody MarkdownCreateRequest request) {
+        service.createMarkdown(courseId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{courseId}/markdown/{markdownId}")
+    public ResponseEntity<Void> editMarkdown(@PathVariable UUID courseId, @PathVariable UUID markdownId, @RequestBody MarkdownChangeRequest request) {
+        service.editMarkdown(courseId, markdownId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PatchMapping("/{courseId}/subscribe/group/{groupId}")
     public ResponseEntity<Void> subscribeGroup(@PathVariable UUID courseId, @PathVariable UUID groupId) {
         service.subscribeStudents(courseId, groupId);
         return ResponseEntity.noContent().build();

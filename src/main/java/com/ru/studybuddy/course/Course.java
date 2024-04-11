@@ -1,5 +1,6 @@
 package com.ru.studybuddy.course;
 
+import com.ru.studybuddy.markdown.Markdown;
 import com.ru.studybuddy.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,7 @@ import org.hibernate.proxy.HibernateProxy;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,10 +31,16 @@ public class Course implements Serializable {
     private UUID id;
 
     @Column(columnDefinition = "text")
-    private String title;
+    @Builder.Default
+    private String title = "";
 
     @Column(columnDefinition = "text")
-    private String description;
+    @Builder.Default
+    private String description = "";
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    List<Markdown> body = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude

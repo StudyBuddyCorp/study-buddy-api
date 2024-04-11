@@ -1,8 +1,11 @@
 package com.ru.studybuddy.course;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ru.studybuddy.markdown.Markdown;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class CourseDataImpl implements CourseData{
@@ -10,6 +13,7 @@ public class CourseDataImpl implements CourseData{
     private UUID id;
 
     private String title;
+    private List<Markdown> markdownBody;
 
     private String description;
 

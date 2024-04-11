@@ -2,13 +2,15 @@ package com.ru.studybuddy.course;
 
 import com.ru.studybuddy.course.exception.CourseNotFoundException;
 import com.ru.studybuddy.course.request.CourseEditRequest;
-import com.ru.studybuddy.course.rest.CreateCourseRequest;
-import com.ru.studybuddy.course.rest.CreateCourseResponse;
+import com.ru.studybuddy.course.request.CreateCourseRequest;
+import com.ru.studybuddy.course.request.MarkdownChangeRequest;
+import com.ru.studybuddy.course.response.CreateCourseResponse;
+import com.ru.studybuddy.course.request.MarkdownCreateRequest;
 import com.ru.studybuddy.user.User;
+import com.ru.studybuddy.user.UserRole;
 import com.ru.studybuddy.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,10 +98,31 @@ public class CourseService {
         repository.saveAndFlush(course);
     }
 
-    @Cacheable(value = "courseCache")
-    public CourseData getOne(UUID id) {
-        return repository.getCourseData(id)
+    public CourseDataWithBody getOne(UUID id) {
+        CourseDataWithBody course = repository.getIdAndTitleAndDescriptionAndCreatedAtAndUpdatedAtAndBodyById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
+        log.info("Title: {}\n Desc: {}\n", course.getTitle(), course.getDescription());
+        return course;
     }
 
+    public Boolean handleCheckCanEdit(UUID courseId, UUID userId) {
+
+        User user = userService.get(userId);
+
+        if (user.getRole() == UserRole.ADMIN) {
+            return true;
+        }
+
+        Course course = get(courseId);
+
+        return course.getTeachers().contains(user);
+    }
+
+    public void editMarkdown(UUID courseId, UUID markdownId, MarkdownChangeRequest request) {
+
+    }
+
+    public void createMarkdown(UUID courseId, MarkdownCreateRequest request) {
+        repository.addMarkdownToCourse(courseId, request);
+    }
 }

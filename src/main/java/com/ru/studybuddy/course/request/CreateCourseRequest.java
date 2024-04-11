@@ -1,4 +1,4 @@
-package com.ru.studybuddy.course.rest;
+package com.ru.studybuddy.course.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
