@@ -3,6 +3,7 @@ package com.ru.studybuddy.course;
 import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
 import com.ru.studybuddy.course.rest.CreateCourseResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/courses")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "JWT")
 public class CourseController {
 
     private final CourseService service;

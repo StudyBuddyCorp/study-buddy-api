@@ -4,6 +4,7 @@ import com.ru.studybuddy.course.Course;
 import com.ru.studybuddy.department.Department;
 import com.ru.studybuddy.group.Group;
 import com.ru.studybuddy.speciality.Specialty;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
+
 public class User implements UserDetails, Serializable {
 
     @Serial
