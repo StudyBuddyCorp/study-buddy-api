@@ -3,6 +3,7 @@ package com.ru.studybuddy.department;
 import com.ru.studybuddy.department.rest.CreateDepartmentRequest;
 import com.ru.studybuddy.department.rest.CreateDepartmentResponse;
 import com.ru.studybuddy.department.rest.GetDepartmentResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/departments")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "JWT")
 public class DepartmentController {
 
     private final DepartmentService service;
