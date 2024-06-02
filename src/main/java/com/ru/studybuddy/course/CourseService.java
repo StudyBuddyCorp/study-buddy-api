@@ -1,6 +1,5 @@
 package com.ru.studybuddy.course;
 
-import com.ru.studybuddy.config.CacheNames;
 import com.ru.studybuddy.course.exception.CourseNotFoundException;
 import com.ru.studybuddy.course.request.CourseEditRequest;
 import com.ru.studybuddy.course.rest.CreateCourseRequest;
@@ -8,8 +7,6 @@ import com.ru.studybuddy.course.rest.CreateCourseResponse;
 import com.ru.studybuddy.user.User;
 import com.ru.studybuddy.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -39,7 +35,6 @@ public class CourseService {
                 .build();
     }
 
-    //    @Cacheable(value = "courseCache")
     public List<CourseData> get(String title) {
         if (title != null && !title.isEmpty()) {
             return repository.getCoursesData(title.toLowerCase());
@@ -97,19 +92,8 @@ public class CourseService {
         repository.saveAndFlush(course);
     }
 
-//    @Cacheable(value = CacheNames.LONG_CACHE)
     public CourseData getOneCache(UUID id) {
-        CourseData course = repository.getCourseData(id)
+        return repository.getCourseData(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        log.info("Course: {}", course);
-        return course;
-    }
-
-//    @Cacheable(value = CacheNames.LONG_CACHE, key = "#id")
-    public Course getOne(UUID id) {
-        Course course = repository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(id));
-        log.info("Course: {}", course);
-        return course;
     }
 }
