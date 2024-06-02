@@ -1,10 +1,4 @@
 spring:
-  cache:
-    type: redis
-  redis:
-    host: redis
-    port: 6379
-    password: konara
   jpa:
     properties:
       hibernate:
@@ -13,7 +7,7 @@ spring:
         order_inserts: true
         order_updates: true
   profiles:
-    active: development
+    active: production
   datasource:
     url: jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vvsogddfgkzdzgxyylcg&password=wooDe.73study-buddy-api
     username: postgres.vvsogddfgkzdzgxyylcg
